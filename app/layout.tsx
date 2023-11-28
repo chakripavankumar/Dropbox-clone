@@ -21,9 +21,13 @@ export default function RootLayout({
     <ClerkProvider>
     <html lang="en">
         <body className={inter.className}>
-
-          <Header />
-          <ThemeProvider>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
+              <Header />
             {children}
             </ThemeProvider>
          
