@@ -11,7 +11,7 @@ function Header() {
       <header className='flex items-center justify-between'>
           <Link href="/"
               className='flex  items-center space-x-2'>
-              <div className=' w-fit'>
+              <div className="bg-[#0160FE] w-fit" >
                   <Image
                       src={logo}
                       alt='logo'
