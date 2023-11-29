@@ -1,8 +1,37 @@
-"use client"
+"use client";
+
 import { cn } from '@/lib/utils';
 import DropzoneComponent from 'react-dropzone'
+import { PlusCircle } from "lucide-react";
+import { useState } from 'react';
+import { useUser } from '@clerk/nextjs';
+
 
 function Dropzone() {
+    const [loading, setLoading] = useState(false);
+    const { isLoaded, isSignedIn, user } = useUser();
+
+    const onDrop = (acceptedFiles: File[]) => {
+        acceptedFiles.forEach(file => {
+            const reader = new FileReader();
+
+            reader.onabort = () => console.log("file reading was aborted");
+            reader.onerror = () => console.log(" file reading has failed");
+            reader.onload = async () => {
+                await uploadPost(file);
+            };
+            reader.readAsArrayBuffer(file);
+        }); 
+    };
+    const uploadPost = async (selectedFile: File) => {
+        if (loading) return;
+        if (!user) return;
+
+        setLoading(true);
+        // do what needs to be done
+
+        setLoading(false);
+    }
     //max file size 20mb
     const maxSize = 20971520;
     return (
@@ -28,15 +57,20 @@ function Dropzone() {
                             isDragActive ? "bg-[#035FFE] text-white animate-pulse"
                                 : "bg-slate-100/50 dark:bg-slate-800/80 text-slate-400"
                         )}>
-                            <input {...getInputProps()} />
+                            <PlusCircle className='m-3'>   </PlusCircle>
+                                <input {...getInputProps()} />
+                              
+                                
                             {!isDragActive && "click here or drop a file to upload!"}
                             {isDragActive && !isDragReject && "Drop to upload this file!"}
                             {isDragReject && "File type not accepted, sorry!"}
                             {isFileTooLarge && (
                                 <div className="text-danger mt-2">File is too large.</div>
-                            )}
+                                )}
+                               
                         </div>
                     </section>
+                    
                 );
             }}
  </DropzoneComponent>
