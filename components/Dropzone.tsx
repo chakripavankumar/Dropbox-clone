@@ -5,6 +5,9 @@ import DropzoneComponent from 'react-dropzone'
 import { PlusCircle } from "lucide-react";
 import { useState } from 'react';
 import { useUser } from '@clerk/nextjs';
+import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { db, storage } from '@/firebase';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 
 function Dropzone() {
@@ -21,7 +24,8 @@ function Dropzone() {
                 await uploadPost(file);
             };
             reader.readAsArrayBuffer(file);
-        }); 
+        });
+    
     };
     const uploadPost = async (selectedFile: File) => {
         if (loading) return;
@@ -29,17 +33,32 @@ function Dropzone() {
 
         setLoading(true);
         // do what needs to be done
+        //  addDoc->users/user345667/file
+        const docRef = await addDoc(collection(db, "users", user.id, "files"), {
+            userId: user.id,
+            fileName: selectedFile.name,
+            profileImg: user.imageUrl,
+            timestamp: serverTimestamp(),
+            type: selectedFile.type,
+            size: selectedFile.size,
+        })
+     
+        const imageRef = ref(storage, `users/${user.id}/files/${docRef.id}`);
+        
+        uploadBytes(imageRef, selectedFile).then(async (snapshot) => {
+            const downloadURL = await getDownloadURL(imageRef);
 
+            await updateDoc(doc(db, "users", user.id, "files", docRef.id), {
+                downloadURL: downloadURL
+            });
+             
+        });
         setLoading(false);
-    }
+    };
     //max file size 20mb
     const maxSize = 20971520;
     return (
-        <DropzoneComponent
-            minSize={0}
-            maxSize={maxSize}
-            onDrop={acceptedFiles => console.log
-                (acceptedFiles)}>
+        <DropzoneComponent minSize={0}  maxSize={maxSize} onDrop={onDrop}>
             {({ getRootProps,
                 getInputProps,
                 isDragActive,
@@ -70,7 +89,7 @@ function Dropzone() {
                                
                         </div>
                     </section>
-                    
+                                
                 );
             }}
  </DropzoneComponent>
