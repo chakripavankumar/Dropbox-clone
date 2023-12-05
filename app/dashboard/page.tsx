@@ -1,12 +1,14 @@
-import { auth } from "@clerk/nextjs"
 import Dropzone from "@/components/Dropzone";
+import { auth } from "@clerk/nextjs"
+
+
 
 
 function  Dashboard()  {
-  const { UserId } = auth();
+  const { userId } = auth();
   return (
     <div>
-        <Dropzone /> 
+        <Dropzone/>
     </div>
   )
 }

@@ -1,8 +1,7 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getFunctions } from "firebase/functions";
- import { getStorage } from "firebase/storage";
+import { getStorage } from "firebase/storage";
+ 
 const firebaseConfig = {
   apiKey: "AIzaSyA0V1UDoSp1ovOD8Px7vnhvrq4wyu1kdZI",
   authDomain: "dropbox-clone-b8eab.firebaseapp.com",
@@ -16,5 +15,5 @@ const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-export {db,storage}
+export { db, storage };
 
