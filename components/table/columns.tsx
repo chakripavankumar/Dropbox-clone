@@ -2,7 +2,7 @@
 
 import { FileType } from "@/typeings"
 import { ColumnDef } from "@tanstack/react-table"
-import {FileIcon,defaultStyles} from "react-file-icon"
+import {FileIcon,defaultStyles} from  "react-file-icon"
 import prettyBytes from "pretty-bytes"
 import { COLOR_EXTENSION_MAP } from "@/constants"
 
@@ -25,8 +25,8 @@ export const columns: ColumnDef<FileType>[] = [
                         {...defaultStyles[extension]}
                     />
                 </div>
-            )
-        }
+            );
+        },
     },
     {
         accessorKey: "fileName",
@@ -51,7 +51,7 @@ export const columns: ColumnDef<FileType>[] = [
             <a
                 href={renderValue() as string}
                 target="_blank"
-                className= "text-blue-500 hover:underline hover: text-white"
+                className= "text-blue-500 hover:text-blue-700"
             >
                 Download
             </a>

@@ -37,12 +37,13 @@ function Dropzone() {
         const docRef = await addDoc(collection(db, "users", user.id, "files"), {
             userId: user.id,
             fileName: selectedFile.name,
+            fullName:user.fullName,
             profileImg: user.imageUrl,
             timestamp: serverTimestamp(),
             type: selectedFile.type,
             size: selectedFile.size,
         })
-     
+       
         const imageRef = ref(storage, `users/${user.id}/files/${docRef.id}`);
         
         uploadBytes(imageRef, selectedFile).then(async (snapshot) => {
@@ -51,10 +52,9 @@ function Dropzone() {
             await updateDoc(doc(db, "users", user.id, "files", docRef.id), {
                 downloadURL: downloadURL
             });
-             
         });
         setLoading(false);
-    };
+         };
     //max file size 20mb
     const maxSize = 20971520;
     return (

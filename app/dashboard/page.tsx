@@ -14,10 +14,9 @@ import { collection, getDocs } from "firebase/firestore";
    const skeletonFiles: FileType[] = docResults.docs.map((doc) => ({
      id: doc.id,
      fileName: doc.data().fileName || doc.id,
-     timeStamp: new Date(doc.data().timeStamp?.seconds * 1000) ||
-       undefined,
+     timeStamp: new Date(doc.data().timeStamp?.seconds * 1000) || undefined,
      fullName: doc.data().fullName,
-     downloadUrl: doc.data().downloadUrl,
+     downloadUrl: doc.data().downloadURL,
      type: doc.data().type,
      size: doc.data().size,
    }));
