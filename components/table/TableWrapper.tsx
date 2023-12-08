@@ -31,7 +31,7 @@ function TableWrapper(
     const files: FileType[] = docs.docs.map((doc) => ({
       id: doc.id,
       fileName: doc.data().fileName || doc.id,
-      timeStamp: new Date(doc.data().timestamp?.seconds * 1000) 
+      timeStamp: new Date(doc.data().timestamp?.seconds * 1000) || undefined,
       
         fullName: doc.data().fileName,
         downloadUrl: doc.data().dowloadURL,
